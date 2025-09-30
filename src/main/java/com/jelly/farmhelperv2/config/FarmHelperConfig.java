@@ -2936,6 +2936,12 @@ public class FarmHelperConfig extends Config {
     public static boolean glaciteWalkerUseAOTV = false;
 
     @Switch(
+            name = "Use Ground Pathfinding", category = GLACITE_WALKER,
+            description = "Use ground-based pathfinding (no flight required)"
+    )
+    public static boolean glaciteWalkerUseGroundPath = true;
+
+    @Switch(
             name = "Auto Health Management", category = GLACITE_WALKER,
             description = "Automatically pause combat when health is low"
     )

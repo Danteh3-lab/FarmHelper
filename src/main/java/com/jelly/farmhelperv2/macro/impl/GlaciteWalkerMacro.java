@@ -9,6 +9,7 @@ import com.jelly.farmhelperv2.handler.MacroHandler;
 import com.jelly.farmhelperv2.handler.RotationHandler;
 import com.jelly.farmhelperv2.macro.AbstractMacro;
 import com.jelly.farmhelperv2.pathfinder.FlyPathFinderExecutor;
+import com.jelly.farmhelperv2.pathfinder.ground.GroundPathExecutor;
 import com.jelly.farmhelperv2.util.KeyBindUtils;
 import com.jelly.farmhelperv2.util.LogUtils;
 import com.jelly.farmhelperv2.util.PlayerUtils;
@@ -73,6 +74,7 @@ public class GlaciteWalkerMacro extends AbstractMacro {
         stuckCheckClock.reset();
         repositionDelay.reset();
         FlyPathFinderExecutor.getInstance().stop();
+        GroundPathExecutor.getInstance().stop();
         KeyBindUtils.stopMovement();
         RotationHandler.getInstance().reset();
         setEnabled(false);
@@ -91,6 +93,11 @@ public class GlaciteWalkerMacro extends AbstractMacro {
             LogUtils.sendWarning("[Glacite Walker] No kills detected for 60 seconds. Stopping macro.");
             MacroHandler.getInstance().disableMacro();
             return;
+        }
+
+        // Tick ground pathfinder if enabled
+        if (FarmHelperConfig.glaciteWalkerUseGroundPath) {
+            GroundPathExecutor.getInstance().tick();
         }
 
         LogUtils.sendDebug("[Glacite Walker] State: " + combatState);
@@ -139,6 +146,7 @@ public class GlaciteWalkerMacro extends AbstractMacro {
             currentTarget = Optional.empty();
             combatState = CombatState.IDLE;
             FlyPathFinderExecutor.getInstance().stop();
+            GroundPathExecutor.getInstance().stop();
             return;
         }
 
@@ -150,14 +158,22 @@ public class GlaciteWalkerMacro extends AbstractMacro {
             LogUtils.sendDebug("[Glacite Walker] In attack range. Starting combat.");
             combatState = CombatState.ATTACKING;
             FlyPathFinderExecutor.getInstance().stop();
+            GroundPathExecutor.getInstance().stop();
             return;
         }
 
         // Path to target if not already pathing
-        if (!FlyPathFinderExecutor.getInstance().isRunning()) {
-            LogUtils.sendDebug("[Glacite Walker] Pathing to target.");
-            FlyPathFinderExecutor.getInstance().setUseAOTV(FarmHelperConfig.glaciteWalkerUseAOTV);
-            FlyPathFinderExecutor.getInstance().findPath(target, true, true, 0.5f, false);
+        if (FarmHelperConfig.glaciteWalkerUseGroundPath) {
+            if (!GroundPathExecutor.getInstance().isRunning()) {
+                LogUtils.sendDebug("[Glacite Walker] Ground pathing to target.");
+                GroundPathExecutor.getInstance().findPath(target, true);
+            }
+        } else {
+            if (!FlyPathFinderExecutor.getInstance().isRunning()) {
+                LogUtils.sendDebug("[Glacite Walker] Fly pathing to target.");
+                FlyPathFinderExecutor.getInstance().setUseAOTV(FarmHelperConfig.glaciteWalkerUseAOTV);
+                FlyPathFinderExecutor.getInstance().findPath(target, true, true, 0.5f, false);
+            }
         }
     }
 
