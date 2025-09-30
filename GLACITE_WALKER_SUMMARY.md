@@ -37,7 +37,7 @@ The Glacite Walker combat macro is now fully implemented with **ground-based pat
 
 1. **`FarmHelperConfig.java`**
    - Added "Glacite Walker Combat" category
-   - 8 configuration options (scan radius, attack range, rotation time, pathfinding mode, health management, etc.)
+   - 6 configuration options (scan radius, attack range, rotation time, health management, etc.)
    - Added `GLACITE_WALKER_COMBAT` to `MacroEnum`
 
 2. **`MacroHandler.java`**
@@ -62,20 +62,14 @@ The Glacite Walker combat macro is now fully implemented with **ground-based pat
 - **Health monitoring**: Auto-pause at configurable health threshold
 
 ### Pathfinding System
-Two modes available:
+Ground-based pathfinding only:
 
-**Ground Pathfinding** (Default - ✅ No flight required):
 - A* algorithm with 16 movement types
 - Walk, jump, ascend, descend, diagonal
 - Terrain-aware cost calculations
 - Works without Booster Cookie or God Pot
 - Ported from MightyMiner's Kotlin implementation
-
-**Fly Pathfinding** (Optional - Requires flight):
-- Uses existing `FlyPathFinderExecutor`
-- 3D aerial navigation
-- AOTV teleport support
-- Requires Booster Cookie + God Pot
+- No flight required
 
 ### Anti-Detection
 - Randomized attack delays (125-200ms)

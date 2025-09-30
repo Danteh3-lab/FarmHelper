@@ -2930,18 +2930,6 @@ public class FarmHelperConfig extends Config {
     public static int glaciteWalkerRotationTime = 250;
 
     @Switch(
-            name = "Use AOTV for Movement", category = GLACITE_WALKER,
-            description = "Use Aspect of the Void for faster movement between targets"
-    )
-    public static boolean glaciteWalkerUseAOTV = false;
-
-    @Switch(
-            name = "Use Ground Pathfinding", category = GLACITE_WALKER,
-            description = "Use ground-based pathfinding (no flight required)"
-    )
-    public static boolean glaciteWalkerUseGroundPath = true;
-
-    @Switch(
             name = "Auto Health Management", category = GLACITE_WALKER,
             description = "Automatically pause combat when health is low"
     )

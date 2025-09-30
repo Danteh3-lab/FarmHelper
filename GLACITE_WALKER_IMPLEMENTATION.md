@@ -33,8 +33,6 @@ Access via OneConfig GUI under "Glacite Walker Combat" category:
 | Scan Radius | 30 blocks | Maximum distance to scan for targets |
 | Attack Range | 4 blocks | Maximum distance to attack from |
 | Rotation Time | 250ms | Base time for rotation smoothing |
-| Use AOTV for Movement | false | Use Aspect of the Void for faster travel (fly mode only) |
-| Use Ground Pathfinding | true | Use ground-based pathfinding (no flight required) |
 | Auto Health Management | true | Pause combat when health is low |
 | Min Health Threshold | 50% | Health percentage to trigger pause |
 
@@ -118,22 +116,14 @@ All aiming uses `RotationHandler.easeTo()` with:
 - Server/client sync
 
 ### Pathfinding
-Two pathfinding modes available:
+Uses ground-based pathfinding only:
 
-**Ground Pathfinding** (Default - No flight required):
 - Uses `GroundPathExecutor` with A* algorithm
 - Ported from MightyMiner's Kotlin pathfinder
 - Supports walking, jumping, ascending, descending, diagonal movement
 - Calculates movement costs based on terrain
 - Works without Booster Cookie or God Pot
-
-**Fly Pathfinding** (Optional - Requires flight):
-- Uses `FlyPathFinderExecutor` for aerial navigation
-- Smooth flying paths to targets
-- Follow mode for moving targets
-- Path smoothing
-- AOTV teleport support (optional)
-- Requires Booster Cookie + God Pot for flight capability
+- No flight required
 
 ## Testing Checklist
 
@@ -157,15 +147,14 @@ Before using in production:
 
 ### If Performance is Poor:
 - Increase scan radius to 40-50 blocks
-- Disable ground pathfinding and use fly mode (if you have flight)
-- Enable AOTV for faster movement (fly mode only)
 - Increase attack range to 5-6 blocks
+- Reduce rotation time to 150-200ms for faster targeting
 
 ### If Pathfinding Issues:
-- **Ground mode stuck**: Switch to fly pathfinding mode
 - **No path found**: Reduce scan radius or check terrain obstacles
 - **Jittery movement**: Increase rotation time to 300-400ms
 - **Falls through world**: Report bug with location details
+- **Gets stuck on terrain**: Try repositioning manually or restart macro
 
 ## Known Limitations
 
